@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import RoleBadge from '../components/RoleBadge'
 import Button from '../components/Button'
 
 export default function Profile() {
@@ -24,8 +23,8 @@ export default function Profile() {
             {user?.username?.slice(0, 2).toUpperCase()}
           </div>
           <div>
-            <h3 style={{ marginBottom: 2 }}>{user?.name}</h3>
-            {user?.role && <RoleBadge role={user.role} />}
+            <h3 style={{ marginBottom: 2 }}>{user?.fullname}</h3>
+            <p style={{ margin: 0, fontSize: 13 }}>@{user?.username}</p>
           </div>
         </div>
 

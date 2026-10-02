@@ -11,7 +11,7 @@ export default function MemberCard({ member, canManage, onRemove }) {
       <td>
         <div className="flex-row">
           <div className="avatar" style={{ width: 28, height: 28, fontSize: 11 }}>{initials}</div>
-          <span>{member.user?.username || member.user?.name}</span>
+          <span>{member.user?.username || member.user?.fullname}</span>
         </div>
       </td>
       <td className="text-muted">{member.user?.email}</td>

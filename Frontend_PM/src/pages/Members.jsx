@@ -24,7 +24,9 @@ export default function Members() {
   const [adding, setAdding] = useState(false)
 
   const myRole = members.find((m) => m.user?._id === user?._id)?.role
-  const canManage = myRole === 'admin' || user?.role === 'admin'
+  // Role lives on ProjectMember, scoped per project — there's no global
+  // user.role on the User model, so this is the only source of truth.
+  const canManage = myRole === 'admin'
 
   const loadMembers = () => {
     setLoading(true)

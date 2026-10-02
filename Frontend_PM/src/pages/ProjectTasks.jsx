@@ -25,13 +25,18 @@ export default function ProjectTasks() {
 
   const loadTasks = () => {
     setLoading(true)
-    Promise.all([taskService.list(projectId), memberService.list(projectId)])
-      .then(([taskRes, memberRes]) => {
-        setTasks(taskRes.data || [])
-        setMembers(memberRes.data || [])
-      })
+    setError('')
+
+    memberService
+      .list(projectId)
+      .then((res) => setMembers(res.data || []))
       .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false))
+
+    taskService
+      .list(projectId)
+      .then((res) => setTasks(res.data || []))
+      .catch(() => setTasks([]))
   }
 
   useEffect(loadTasks, [projectId])

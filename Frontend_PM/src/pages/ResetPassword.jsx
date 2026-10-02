@@ -25,7 +25,8 @@ export default function ResetPassword() {
     setError('')
     setLoading(true)
     try {
-      await authService.resetPassword(token, { password: formData.password })
+      // Backend expects "newPassword", not "password"
+      await authService.resetPassword(token, { newPassword: formData.password })
       navigate('/login')
     } catch (err) {
       setError(getErrorMessage(err))

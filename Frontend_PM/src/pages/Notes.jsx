@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '../hooks/useAuth'
 import projectService from '../services/projectService'
 import noteService from '../services/noteService'
 import { getErrorMessage } from '../services/api'
@@ -11,7 +10,6 @@ import Button from '../components/Button'
 // Backend notes are scoped per project (GET /notes/:projectId), so this page
 // lets the user pick which project's notes to view via a dropdown.
 export default function Notes() {
-  const { user } = useAuth()
   const [projects, setProjects] = useState([])
   const [selectedProject, setSelectedProject] = useState('')
   const [notes, setNotes] = useState([])
@@ -23,7 +21,10 @@ export default function Notes() {
   const [content, setContent] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const canManageNotes = user?.role === 'admin'
+  // Role is per-project (ProjectMember.role), not a global user property.
+  // projectService.list() attaches the caller's own role to each project,
+  // so we look up the role for whichever project is currently selected.
+  const canManageNotes = projects.find((p) => p._id === selectedProject)?.role === 'admin'
 
   useEffect(() => {
     projectService

@@ -33,29 +33,29 @@ export default function Register() {
   }
 
   const handleSubmit = async (e) => {
-  e.preventDefault()
-  const validationError = validate()
-  if (validationError) {
-    setError(validationError)
-    return
-  }
+    e.preventDefault()
+    const validationError = validate()
+    if (validationError) {
+      setError(validationError)
+      return
+    }
 
-  setError('')
-  setLoading(true)
-  try {
-    const { confirmPassword, name, ...rest } = formData
-    await authService.register({
-      ...rest,
-      fullname: name,
-      username: rest.username.toLowerCase(),
-    })
-    setSuccess(true)
-  } catch (err) {
-    setError(getErrorMessage(err))
-  } finally {
-    setLoading(false)
+    setError('')
+    setLoading(true)
+     try {
+      const { confirmPassword, name, ...rest } = formData
+      await authService.register({
+        ...rest,
+        fullname: name,
+        username: rest.username.toLowerCase(),
+      })
+      setSuccess(true)
+    } catch (err) {
+      setError(getErrorMessage(err))
+    } finally {
+      setLoading(false)
+    }
   }
-}
 
   // Conditional rendering: once registration succeeds, we swap the form
   // for a "check your email" message instead of navigating away —

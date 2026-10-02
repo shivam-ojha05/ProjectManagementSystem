@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import projectService from '../services/projectService'
+import memberService from '../services/memberService'
 import taskService from '../services/taskService'
 import { getErrorMessage } from '../services/api'
 import Loading from '../components/Loading'
@@ -18,6 +19,7 @@ export default function ProjectDetails() {
 
   const [project, setProject] = useState(null)
   const [tasks, setTasks] = useState([])
+  const [members, setMembers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -30,20 +32,28 @@ export default function ProjectDetails() {
 
   // The backend is the authority on permissions, but we still hide/show
   // admin-only actions here so the UI doesn't offer buttons that would 403.
-  const myRole = project?.members?.find((m) => m.user?._id === user?._id)?.role
-  const isAdmin = myRole === 'admin' || user?.role === 'admin'
+  // getProjectById doesn't embed members, so we fetch the member list
+  // separately and find our own role in it (same approach as Members.jsx).
+  const myRole = members.find((m) => m.user?._id === user?._id)?.role
+  const isAdmin = myRole === 'admin'
 
-  const loadProject = () => {
+const loadProject = () => {
     setLoading(true)
     setError('')
-    Promise.all([projectService.getById(projectId), taskService.list(projectId)])
-      .then(([projectRes, tasksRes]) => {
+
+    Promise.all([projectService.getById(projectId), memberService.list(projectId)])
+      .then(([projectRes, membersRes]) => {
         setProject(projectRes.data)
         setEditData({ name: projectRes.data.name, description: projectRes.data.description || '' })
-        setTasks(tasksRes.data || [])
+        setMembers(membersRes.data || [])
       })
       .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false))
+
+    taskService
+      .list(projectId)
+      .then((res) => setTasks(res.data || []))
+      .catch(() => setTasks([]))
   }
 
   useEffect(loadProject, [projectId])

@@ -50,7 +50,7 @@ export default function Dashboard() {
     <div className="page">
       <div className="page-header">
         <div>
-          <h1>Welcome back, {user?.name?.split(' ')[0] || user?.username}</h1>
+          <h1>Welcome back, {user?.fullname?.split(' ')[0] || user?.username}</h1>
           <p>Here's what's happening across your projects.</p>
         </div>
         <Link to="/projects/create" className="btn btn-primary">+ New Project</Link>

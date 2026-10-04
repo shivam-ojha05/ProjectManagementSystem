@@ -4,23 +4,6 @@ A full-stack **Project Management System** built using the MERN stack. This appl
 
 🔗 **GitHub Repository:** [ProjectManagementSystem](https://github.com/shivam-ojha05/ProjectManagementSystem)
 
----
-
-## 📸 Screenshots
-
-### 📊 Dashboard
-
-![Project Management Dashboard](screenshots/dashboard.png)
-
-### 🔐 Login Page
-
-![Login Page](screenshots/login.png)
-
-### 📝 Registration Page
-
-![Registration Page](screenshots/register.png)
-
----
 
 ## ✨ Features
 
